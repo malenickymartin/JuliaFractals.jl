@@ -1,7 +1,12 @@
 module SPJFractals
 
-greet() = print("Hello World!")
+using GLMakie
+using Base.Threads
+using CUDA
 
-export greet
+include("compute.jl")
+include("fractal_equations.jl")
+
+export compute_fractal
 
 end # module SPJFractals

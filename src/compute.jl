@@ -1,4 +1,7 @@
-function gpu_fractal_kernel!(result, func::F, params, x_vals, y_vals) where F
+function gpu_fractal_kernel!(
+    result::AbstractArray{<:Integer}, func::Function, params::AbstractArray{<:Number},
+    x_vals::AbstractArray{<:AbstractFloat}, y_vals::AbstractArray{<:AbstractFloat}
+)
     i = threadIdx().x + (blockIdx().x - 1) * blockDim().x
     j = threadIdx().y + (blockIdx().y - 1) * blockDim().y
     if i <= size(result, 1) && j <= size(result, 2)
@@ -7,7 +10,10 @@ function gpu_fractal_kernel!(result, func::F, params, x_vals, y_vals) where F
     return
 end
 
-function plane_ranges(center::Vector{Float64}, size::Vector{Float64}, img_size::Vector{Int})
+function plane_ranges(
+    center::AbstractVector{<:AbstractFloat}, size::AbstractVector{<:AbstractFloat},
+    img_size::AbstractVector{<:Integer}
+)
     img_width, img_height = img_size
     x_scale = size[1] / (img_width - 1)
     y_scale = size[2] / (img_height - 1)
@@ -17,8 +23,8 @@ function plane_ranges(center::Vector{Float64}, size::Vector{Float64}, img_size::
 end
 
 function compute_fractal_gpu(
-    func::Function, params::Vector{Float64}, center::Vector{Float64},
-    plane_size::Vector{Float64}, img_size::Vector{Int64}
+    func::Function, params::AbstractArray{<:Number}, center::AbstractVector{<:AbstractFloat},
+    plane_size::AbstractVector{<:AbstractFloat}, img_size::AbstractVector{<:Integer}
 )
     x_range, y_range = plane_ranges(center, plane_size, img_size)
     cuda_x_range = CuArray(x_range)
@@ -33,9 +39,9 @@ function compute_fractal_gpu(
 end
 
 function cpu_fractal_kernel!(
-    result::Array{UInt8,2}, func::Function, params::Vector{Float64},
-    x_range::Vector{Float64}, y_range::Vector{Float64}, 
-    img_width::Int
+    result::AbstractArray{UInt8,2}, func::Function, params::AbstractArray{<:Number},
+    x_range::AbstractVector{<:AbstractFloat}, y_range::AbstractVector{<:AbstractFloat}, 
+    img_width::Integer
 )
     if img_width/Threads.nthreads()-1 < length(x_range)
         x_center = length(x_range) ÷ 2
@@ -43,8 +49,8 @@ function cpu_fractal_kernel!(
         cpu_fractal_kernel!(result, func, params, x_range[x_center+1:end], y_range, img_width)
         wait(finish)
     else
-        for i in 1:length(x_range)
-            for j in 1:length(y_range)
+        for i in eachindex(x_range)
+            for j in eachindex(y_range)
                 @inbounds result[j, i] = func(x_range[i], y_range[j], params)
             end
         end
@@ -52,8 +58,8 @@ function cpu_fractal_kernel!(
 end
 
 function compute_fractal_cpu(
-    func::Function, params::Vector{Float64}, center::Vector{Float64},
-    plane_size::Vector{Float64}, img_size::Vector{Int64}
+    func::Function, params::AbstractArray{<:Number}, center::AbstractVector{<:AbstractFloat},
+    plane_size::AbstractVector{<:AbstractFloat}, img_size::AbstractVector{<:Integer}
 )
     x_range, y_range = plane_ranges(center, plane_size, img_size)
     result = Array{UInt8,2}(undef,reverse(img_size)...)
@@ -61,9 +67,25 @@ function compute_fractal_cpu(
     return result
 end
 
+"""
+    compute_fractal(func, params, center, plane_size, img_size, use_gpu=true)
+
+Compute a fractal using the given function and parameters.
+
+# Arguments
+- `func::Function`: The function to compute the fractal with.
+- `params::AbstractArray{<:Number}`: The parameters to pass to the function.
+- `center::AbstractVector{<:AbstractFloat}`: The center of the complex plane in image.
+- `plane_size::AbstractVector{<:AbstractFloat}`: The size of the complex plane.
+- `img_size::AbstractVector{<:Integer}`: The size of the image.
+- `use_gpu::Bool=true`: Whether to use the GPU or threaded CPU for computation.
+
+# Returns
+An `Array{UInt8,2}` containing the computed fractal.
+"""
 function compute_fractal(
-    func::Function, params::Vector{Float64}, center::Vector{Float64},
-    plane_size::Vector{Float64}, img_size::Vector{Int64}, use_gpu::Bool
+    func::Function, params::AbstractArray{<:Number}, center::AbstractVector{<:AbstractFloat},
+    plane_size::AbstractVector{<:AbstractFloat}, img_size::AbstractVector{<:Integer}, use_gpu::Bool=true
 )
     if CUDA.has_cuda() && use_gpu
         return Array(compute_fractal_gpu(func, params, center, plane_size, img_size))

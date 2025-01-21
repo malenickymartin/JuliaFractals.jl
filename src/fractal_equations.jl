@@ -1,4 +1,17 @@
-function mandelbrot(x::Float64, y::Float64, params::Vector{Float64})
+"""
+    mandelbrot_equation(x::AbstractFloat, y::AbstractFloat, params::AbstractVector{<:Real})
+
+Compute the number of iterations for the Mandelbrot set equation.
+
+# Arguments
+- `x::AbstractFloat`: The x-coordinate of the point.
+- `y::AbstractFloat`: The y-coordinate of the point.
+- `params::AbstractVector{<:Real}`: The parameters of the equation.
+
+# Returns
+The number of iterations before the point escapes.
+"""
+function mandelbrot_equation(x::AbstractFloat, y::AbstractFloat, params::AbstractVector{<:Real})
     max_iter = params[1]
     c = ComplexF64(x, y)
     z = ComplexF64(0, 0)
@@ -10,13 +23,22 @@ function mandelbrot(x::Float64, y::Float64, params::Vector{Float64})
     return iter
 end
 
-function julia(
-    x0::T,
-    y0::T,
-    params::AbstractArray{Any, 1} = [500, 0.0, 0.0]
-) where {T<:AbstractFloat}
-    c_x = params[2] #float
-    c_y = params[3] #float
+"""
+    julia_equation(x0::Real, y0::Real, params::AbstractVector{<:Real} = [500, 0.0, 0.0])
+
+Compute the number of iterations for the Julia set equation.
+
+# Arguments
+- `x0::Real`: The x-coordinate of the point.
+- `y0::Real`: The y-coordinate of the point.
+- `params::AbstractVector{<:Real}`: The parameters of the equation.
+
+# Returns
+The number of iterations before the point escapes.
+"""
+function julia_equation(x0::Real, y0::Real, params::AbstractVector{<:Real} = [500, 0.0, 0.0])
+    c_x = params[2]
+    c_y = params[3]
     x = x0
     y = y0
     x2 = x0*x0

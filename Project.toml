@@ -5,10 +5,14 @@ version = "0.1.0"
 
 [deps]
 CUDA = "052768ef-5323-5732-b1bb-66c8b64840ba"
-GLMakie = "e9467ef8-e4e7-5192-8a1a-b1aee30e663a"
+CairoMakie = "13f3f980-e62b-5c42-98c6-ff1f3baf88f0"
+FLoops = "cc61a311-1640-44b5-9fba-1b764f453329"
+FoldsThreads = "9c68100b-dfe1-47cf-94c8-95104e173443"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [compat]
-CUDA = "5.5.2"
-GLMakie = "0.10.18"
+CUDA = "5.6.1"
+CairoMakie = "0.13.1"
+FLoops = "0.2.2"
+FoldsThreads = "0.1.2"
 Test = "1.11.0"

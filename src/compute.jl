@@ -60,7 +60,7 @@ Compute a fractal using the given function and parameters on the GPU.
 - `img_size::AbstractVector{<:Integer}`: The size of the image.
 
 # Returns
-An `Array{UInt8,2}` containing the computed fractal.
+An `Array{UInt16,2}` containing the computed fractal.
 """
 function compute_fractal_gpu(
     func::Function, params::AbstractArray{<:Number}, center::AbstractVector{<:Real},
@@ -70,7 +70,7 @@ function compute_fractal_gpu(
     cuda_x_range = CuArray(x_range)
     cuda_y_range = CuArray(y_range)
     cuda_params = CuArray(params)
-    result = CUDA.zeros(UInt8, reverse(img_size)...)
+    result = CUDA.zeros(UInt16, reverse(img_size)...)
 
     max_th = CUDA.attribute(device(), CUDA.DEVICE_ATTRIBUTE_MAX_THREADS_PER_BLOCK)
     th_x = min(max_th, img_size[1])
@@ -93,14 +93,14 @@ Compute a fractal using the given function and parameters on the CPU.
 - `img_size::AbstractVector{<:Integer}`: The size of the image.
 
 # Returns
-An `Array{UInt8,2}` containing the computed fractal.
+An `Array{UInt16,2}` containing the computed fractal.
 """
 function compute_fractal_cpu(
     func::Function, params::AbstractArray{<:Number}, center::AbstractVector{<:Real},
     plane_size::AbstractVector{<:Real}, img_size::AbstractVector{<:Integer}
 )
     x_range, y_range = plane_ranges(center, plane_size, img_size)
-    result = Array{UInt8,2}(undef, reverse(img_size)...)
+    result = Array{UInt16,2}(undef, reverse(img_size)...)
     @floop ThreadedEx(basesize=img_size[1]÷(Threads.nthreads()^2)) for i in eachindex(x_range)
         for j in eachindex(y_range)
             result[j, i] = func(x_range[i], y_range[j], params)
@@ -123,7 +123,7 @@ Compute a fractal using the given function and parameters.
 - `use_gpu::Bool=true`: Whether to use the GPU or threaded CPU for computation.
 
 # Returns
-An `Array{UInt8,2}` containing the computed fractal.
+An `Array{UInt16,2}` containing the computed fractal.
 """
 function compute_fractal(
     func::Function, params::AbstractArray{<:Number}, center::AbstractVector{<:Real},

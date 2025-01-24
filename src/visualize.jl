@@ -34,6 +34,6 @@ end
 
 function basic_plot(func, params, center, plane_size, img_size)
     img = matrix_to_img(compute_fractal(func, params, center, plane_size, img_size, false))
-    fig, ax, im = image(axes_bounds(center, plane_size)..., axis = (xlabel="Real", ylabel="Imaginary"), img)
+    fig, ax, im = heatmap(axes_bounds(center, plane_size)..., axis = (xlabel="Real", ylabel="Imaginary"), img)
     display(fig)
 end

@@ -77,7 +77,7 @@ function burningship_equation(x::AbstractFloat, y::AbstractFloat, params::Abstra
         z = ComplexF64(abs(real(z)), abs(imag(z)))^2 + c
         iter += 1
     end
-    return iter
+    return UInt16(iter)
 end
 
 """
@@ -102,7 +102,7 @@ function tricorn_equation(x::AbstractFloat, y::AbstractFloat, params::AbstractVe
         z = conj(z * z) + c
         iter += 1
     end
-    return iter
+    return UInt16(iter)
 end
 
 """
@@ -131,7 +131,7 @@ function create_newton_equation(func::Function)
             end
             c = update(c)
         end
-        return UInt16(round(mod(rad2deg(angle(c))+(iters-final_iter),360)))
+        return UInt16(round(mod(rad2deg(angle(c)),360)))
     end
 end
 

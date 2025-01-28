@@ -35,13 +35,13 @@ end
     @testset "In points" begin
         @test burningship_equation(0.0, 0.0, params) == params[1]
         @test burningship_equation(-1.0, 0.0, params) == params[1]
-        @test burningship_equation(0.0, -1.0, params) == params[1]
-        @test burningship_equation(-1.0, -1.0, params) == params[1]
+        @test burningship_equation(-1.0, 1.0, params) == params[1]
+        @test burningship_equation(0.0, 1.0, params) == params[1]
     end
     @testset "Out points" begin
         @test burningship_equation(1.0, 0.0, params) < params[1]
-        @test burningship_equation(-1.0, 1.0, params) < params[1]
-        @test burningship_equation(0.0, 1.0, params) < params[1]
+        @test burningship_equation(-1.0, -1.0, params) < params[1]
+        @test burningship_equation(0.0, -1.0, params) < params[1]
         @test burningship_equation(0.5, 0.0, params) < params[1]
     end
 end
@@ -58,6 +58,8 @@ end
         @test tricorn_equation(-1.0, -1.0, params) < params[1]
         @test tricorn_equation(1.0, 0.0, params) < params[1]
         @test tricorn_equation(-1.0, 1.0, params) < params[1]
+
+
     end
 end
 
@@ -66,6 +68,6 @@ end
     f(x) = x^3 - 1
     newton_equation = create_newton_equation(f)
     @test newton_equation(1.0, 0.0, params) == round(mod(rad2deg(angle(1)),360))
-    @test newton_equation(-1.0, 1.0, params) == round(mod(rad2deg(angle(-1/2+sqrt(3)/2*im)),360))
-    @test newton_equation(-1.0, -1.0, params) == round(mod(rad2deg(angle(-1/2-sqrt(3)/2*im)),360))
+    @test newton_equation(-1.0, 1.0, params) == round(mod(rad2deg(angle(-1/2-sqrt(3)/2*im)),360))
+    @test newton_equation(-1.0, -1.0, params) == round(mod(rad2deg(angle(-1/2+sqrt(3)/2*im)),360))
 end

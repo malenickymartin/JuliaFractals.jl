@@ -36,14 +36,14 @@ Compute the ranges of the complex plane in image coordinates.
 A tuple of two arrays containing the x and y ranges of the complex plane.
 """
 function plane_ranges(
-    center::AbstractVector{<:Real}, size::AbstractVector{<:Real},
+    center::AbstractVector{<:Real}, plane_size::AbstractVector{<:Real},
     img_size::AbstractVector{<:Integer}
 )
     img_width, img_height = img_size
-    x_scale = size[1] / (img_width - 1)
-    y_scale = size[2] / (img_height - 1)
-    x_range = [center[1] - size[1]/2 + x_scale * (i - 1) for i in 1:img_width]
-    y_range = [center[2] - size[2]/2 + y_scale * (j - 1) for j in 1:img_height]
+    x_scale = plane_size[1] / (img_width - 1)
+    y_scale = plane_size[2] / (img_height - 1)
+    x_range = [center[1] - plane_size[1]/2 + x_scale * (i - 1) for i in 1:img_width]
+    y_range = [center[2] - plane_size[2]/2 + y_scale * (j - 1) for j in 1:img_height]
     return x_range, y_range
 end
 
@@ -103,7 +103,7 @@ function compute_fractal_cpu(
     result = Array{UInt16,2}(undef, reverse(img_size)...)
     @floop ThreadedEx(basesize=img_size[1]÷(Threads.nthreads()^2)) for i in eachindex(x_range)
         for j in eachindex(y_range)
-            result[j, i] = func(x_range[i], y_range[j], params)
+            @inbounds result[j, i] = func(x_range[i], y_range[j], params)
         end
     end
     return result

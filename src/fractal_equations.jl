@@ -13,7 +13,7 @@ The number of iterations before the point escapes.
 """
 function mandelbrot_equation(x::AbstractFloat, y::AbstractFloat, params::AbstractVector{<:Real})
     max_iter = params[1]
-    c = ComplexF64(x, y)
+    c = ComplexF64(x, -y)
     z = ComplexF64(0, 0)
     iter = UInt16(0)
     while abs2(z) <= 4.0f0 && iter < max_iter
@@ -36,11 +36,11 @@ Compute the number of iterations for the Julia set equation.
 # Returns
 The number of iterations before the point escapes.
 """
-function julia_equation(x0::Real, y0::Real, params::AbstractVector{<:Real} = [500, 0.0, 0.0])
+function julia_equation(x0::AbstractFloat, y0::AbstractFloat, params::AbstractVector{<:Real} = [500, 0.0, 0.0])
     c_x = params[2]
     c_y = params[3]
     x = x0
-    y = y0
+    y = -y0
     x2 = x0*x0
     y2 = y0*y0
     for i in 1:params[1]
@@ -70,7 +70,7 @@ The number of iterations before the point escapes.
 """
 function burningship_equation(x::AbstractFloat, y::AbstractFloat, params::AbstractVector{<:Real})
     max_iter = params[1]
-    c = ComplexF64(x, y)
+    c = ComplexF64(x, -y)
     z = ComplexF64(0, 0)
     iter = UInt16(0)
     while abs2(z) <= 4.0f0 && iter < max_iter
@@ -95,7 +95,7 @@ The number of iterations before the point escapes.
 """
 function tricorn_equation(x::AbstractFloat, y::AbstractFloat, params::AbstractVector{<:Real})
     max_iter = params[1]
-    c = ComplexF64(x, y)
+    c = ComplexF64(x, -y)
     z = ComplexF64(0, 0)
     iter = UInt16(0)
     while abs2(z) <= 4.0f0 && iter < max_iter
@@ -121,7 +121,7 @@ function create_newton_equation(func::Function)
     @variables x
     update = eval(build_function(x - func(x) / Symbolics.derivative(func(x), x), x))
     function newton_equation(x::AbstractFloat, y::AbstractFloat, params::AbstractVector{<:Real})
-        c = ComplexF64(x, y)
+        c = ComplexF64(x, -y)
         iters = params[1]
         final_iter = 0
         for i in 1:iters

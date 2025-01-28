@@ -13,6 +13,6 @@ include("fractal_equations.jl")
 
 export compute_fractal, fractal_closure
 export mandelbrot_equation, julia_equation, burningship_equation, tricorn_equation, create_newton_equation
-export basic_plot
+export basic_plot, fractal_app
 
 end # module SPJFractals

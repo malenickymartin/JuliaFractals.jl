@@ -5,9 +5,9 @@ pkg"dev .."
 Pkg.precompile()
 
 using SPJFractals
-using Documenter: Documenter
+using Documenter
 
-DocMeta.setdocmeta!(
+Documenter.DocMeta.setdocmeta!(
     SPJFractals,
     :DocTestSetup,
     :(using SPJFractals);

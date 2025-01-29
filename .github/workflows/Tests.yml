@@ -18,32 +18,45 @@ concurrency:
 
 jobs:
   test:
-    runs-on: ubuntu-20.04
+    name: Julia ${{ matrix.version }}
+    env:
+      MODERNGL_DEBUGGING: "true"
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        version:
+          - '1.11'
+          - '1'
+        os:
+          - ubuntu-20.04
+        arch:
+          - x64
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - uses: julia-actions/setup-julia@v2
         with:
-          persist-credentials: false
-      - name: Install python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.8'
-      - name: Install binary dependencies
-        run: sudo apt-get update && sudo apt-get install -y xorg-dev mesa-utils xvfb libgl1 freeglut3-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev libxext-dev
-      - name: Install Julia
-        uses: julia-actions/setup-julia@v2
-        with:
-          version: '1'
+          version: ${{ matrix.version }}
+          arch: ${{ matrix.arch }}
       - uses: julia-actions/cache@v2
-      - name: Develop and test SPJFractals
+      - run: sudo apt-get update && sudo apt-get install -y xorg-dev mesa-utils xvfb libgl1 freeglut3-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev libxext-dev xsettingsd x11-xserver-utils
+      - name: Install Julia dependencies
         shell: julia --project=monorepo {0}
         run: |
-          using Pkg
+          using Pkg;
           pkg"registry up"
           Pkg.update()
           pkg"dev ."
-          Pkg.test("SPJFractals"; coverage=true)
-
+      - name: Run the tests
+        id: referencetests
+        continue-on-error: true
+        run: >
+          DISPLAY=:0 xvfb-run -s '-screen 0 1024x768x24' julia --color=yes --project=monorepo -e 'using Pkg; Pkg.test("SPJFractals", coverage=true)'
+          && echo "TESTS_SUCCESSFUL=true" >> $GITHUB_ENV
+      - name: Fail after tests failed
+        if: ${{ env.TESTS_SUCCESSFUL != 'true' }}
+        run: exit 1
       - uses: julia-actions/julia-processcoverage@v1
       - uses: codecov/codecov-action@v5
         with:

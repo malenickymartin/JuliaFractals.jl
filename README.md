@@ -3,7 +3,7 @@
 
 [![In development documentation](https://img.shields.io/badge/docs-dev-blue.svg)](https://malenickymartin.github.io/SPJFractals.jl/dev)
 [![Docs workflow Status](https://github.com/malenickymartin/SPJFractals.jl/actions/workflows/Docs.yml/badge.svg?branch=main)](https://github.com/malenickymartin/SPJFractals.jl/actions/workflows/Docs.yml?query=branch%3Amain)
-[![Test workflow status](https://github.com/malenickymartin/SPJFractals.jl/actions/workflows/Tests.yml/badge.svg?branch=main)](https://github.com/malenickymartin/SPJFractals.jl/actions/workflows/Tests.yml?query=branch%3Amain)
+[![Test workflow status](https://github.com/malenickymartin/SPJFractals.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/malenickymartin/SPJFractals.jl/actions/workflows/CI.yml?query=branch%3Amain)
 [![codecov](https://codecov.io/gh/malenickymartin/SPJFractals.jl/graph/badge.svg?token=GHSAKYW2KY)](https://codecov.io/gh/malenickymartin/SPJFractals.jl)
 
 </div>

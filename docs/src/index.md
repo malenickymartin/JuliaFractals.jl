@@ -63,5 +63,25 @@ basic_plot(burningship_equation, [255], [0, 0], [3, 3], [10, 10])
 
 ## Benchmarks
 
-Tabulka CPU vs CUDA vs CUDA s bez převodu obrázku na CPU | velikost obrázku
-Benchmark script zde
+The following table shows the performance of the package for different fractal equations and resolutions on both GPU and CPU. The times are measured in milliseconds. The CPU times are measured for both single-core and multi-core (6 cores) performance. The benchmarks were run on an NVIDIA GeForce GTX 1650 GPU and an Intel Core i5-9300H CPU. The times for GPU include the time to transfer data to and from the GPU.
+
+#### Mandelbrot:
+| Resolution | Time (GPU) | Time (CPU 1 core) | Time (CPU 6 cores) |
+|------------|:----------:|:-----------------:|:------------------:|
+| 500x500    |  2.532     |     55.529        |      11.380        |
+| 1000x1000  |  9.121     |     221.672       |      44.275        |
+| 1500x1500  |  19.852    |     501.976       |      98.538        |
+
+#### Burning Ship:
+| Resolution | Time (GPU) | Time (CPU 1 core) | Time (CPU 6 cores) |
+|------------|:----------:|:-----------------:|:------------------:|
+| 500x500    |  2.629     |     59.215        |     11.879         |
+| 1000x1000  |  9.350     |     237.025       |     46.240         |
+| 1500x1500  |  20.268    |     535.690       |     102.591        |
+
+#### Newton (x<sup>3</sup>-1):
+| Resolution | Time (GPU) | Time (CPU 1 core) | Time (CPU 6 cores) |
+|------------|:----------:|:-----------------:|:------------------:|
+| 500x500    |  53.690    |     1301          |        244.407     |
+| 1000x1000  |  195.101   |     5235          |        973.767     |
+| 1500x1500  |  425.482   |     11772         |        2188        |

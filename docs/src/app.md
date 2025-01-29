@@ -26,7 +26,7 @@ Here is an example of how to use the `fractal_app` function:
 using SPJFractals
 
 # Create an interactive fractal visualization app with default parameters
-fractal_app(img_size=[1080, 720], fps=60)
+fractal_app([1080, 720], 60)
 ```
 
 ## Controls

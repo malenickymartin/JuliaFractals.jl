@@ -29,12 +29,14 @@ Pkg.add(url="https://github.com/malenickymartin/SPJFractals.git")
 
 ## Getting Started
 
-To get started with SPJFractals, you can install the package and start generating fractals with just a few lines of code. Below is an example of how to compute a fractal using the `burningship_equation`:
+To get started with SPJFractals, you can install the package and start generating fractals with just a few lines of code. Below is an example of how to compute a fractal using the `burningship_equation` with both GPU and CPU:
 
 ```@example
 using SPJFractals
 
 compute_fractal(burningship_equation, [255], [0, 0], [3, 3], [10, 10])
+
+compute_fractal(burningship_equation, [255], [0, 0], [3, 3], [10, 10], false)
 ```
 
 This example demonstrates how to generate a fractal image using the provided functions. You can customize the parameters to explore different fractal patterns and behaviors.
@@ -43,8 +45,11 @@ You can for example define your own fractal equation and use it:
 ```@example
 using SPJFractals
 
-function my_equation(z, c)
-    return z^2 + c
+function my_equation(x, y, params)
+    z = x + y*im
+    c = params[1] + params[2]*im
+    pixel_value = round(abs(5*z^2+x))
+    return UInt16(pixel_value)
 end
 
 compute_fractal(my_equation, [255], [-1, -1], [1, 1], [10, 10])

@@ -129,7 +129,7 @@ function compute_fractal(
     func::Function, params::AbstractArray{<:Number}, center::AbstractVector{<:Real},
     plane_size::AbstractVector{<:Real}, img_size::AbstractVector{<:Integer}, use_gpu::Bool=true
 )
-    if CUDA.has_cuda() && use_gpu
+    if CUDA.functional() && use_gpu
         return Array(compute_fractal_gpu(func, params, center, plane_size, img_size))
     else
         return compute_fractal_cpu(func, params, center, plane_size, img_size)

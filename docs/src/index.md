@@ -35,6 +35,8 @@ compute_fractal(burningship_equation, [255], [0, 0], [3, 3], [10, 10])
 compute_fractal(burningship_equation, [255], [0, 0], [3, 3], [10, 10], false)
 ```
 
+The input function to the `compute_fractal` or `basic_plot` functions can be any function that takes x and y coordinates and a vector of arbitrary parameters, and outputs a `UInt16`. The output image created by calling the function on each pixel can be mapped on different color maps.
+
 This example demonstrates how to generate a fractal image using the provided functions. You can customize the parameters to explore different fractal patterns and behaviors.
 You can for example define your own fractal equation and use it:
 
@@ -58,3 +60,8 @@ using SPJFractals
 
 basic_plot(burningship_equation, [255], [0, 0], [3, 3], [10, 10])
 ```
+
+## Benchmarks
+
+Tabulka CPU vs CUDA vs CUDA s bez převodu obrázku na CPU | velikost obrázku
+Benchmark script zde

@@ -4,6 +4,7 @@
 [![In development documentation](https://img.shields.io/badge/docs-dev-blue.svg)](https://malenickymartin.github.io/SPJFractals.jl/dev)
 [![Docs workflow Status](https://github.com/malenickymartin/SPJFractals.jl/actions/workflows/Docs.yml/badge.svg?branch=main)](https://github.com/malenickymartin/SPJFractals.jl/actions/workflows/Docs.yml?query=branch%3Amain)
 [![Test workflow status](https://github.com/malenickymartin/SPJFractals.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/malenickymartin/SPJFractals.jl/actions/workflows/CI.yml?query=branch%3Amain)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/malenickymartin/SPJFractals.jl/blob/master/LICENSE)
 [![codecov](https://codecov.io/gh/malenickymartin/SPJFractals.jl/graph/badge.svg?token=GHSAKYW2KY)](https://codecov.io/gh/malenickymartin/SPJFractals.jl)
 
 </div>
@@ -38,6 +39,8 @@ compute_fractal(burningship_equation, [255], [0, 0], [3, 3], [10, 10])
 
 compute_fractal(burningship_equation, [255], [0, 0], [3, 3], [10, 10], false)
 ```
+
+The input function to the `compute_fractal` or `basic_plot` functions can be any function that takes x and y coordinates and a vector of arbitrary parameters, and outputs a `UInt16`. The output image created by calling the function on each pixel can be mapped on different color maps.
 
 This example demonstrates how to generate a fractal image using the provided functions. You can customize the parameters to explore different fractal patterns and behaviors.
 You can for example define your own fractal equation and use it:

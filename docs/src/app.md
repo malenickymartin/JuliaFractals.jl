@@ -2,16 +2,6 @@
 
 ## Introduction
 
-Tato funkce:
-
-```@docs; canonical=false
-fractal_app
-```
-
-# Interactive App
-
-## Introduction
-
 The `fractal_app` function creates an interactive fractal visualization app. This app allows users to explore different fractal equations and visualize them in real-time.
 
 ```@docs; canonical=false

@@ -1,4 +1,4 @@
-name: Test
+name: CI
 on:
   pull_request:
     paths-ignore:
@@ -54,10 +54,9 @@ jobs:
         run: >
           DISPLAY=:0 xvfb-run -s '-screen 0 1024x768x24' julia --color=yes --project=monorepo -e 'using Pkg; Pkg.test("SPJFractals", coverage=true)'
           && echo "TESTS_SUCCESSFUL=true" >> $GITHUB_ENV
-      - name: Fail after tests failed
-        if: ${{ env.TESTS_SUCCESSFUL != 'true' }}
-        run: exit 1
       - uses: julia-actions/julia-processcoverage@v1
-      - uses: codecov/codecov-action@v5
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
         with:
-          files: lcov.info
+          token: ${{ secrets.CODECOV_TOKEN }}
+

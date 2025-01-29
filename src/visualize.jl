@@ -1,34 +1,73 @@
+"""
+    axes_bounds(center, plane_size)
+
+Compute the bounds of the axes for a heatmap.
+
+# Arguments
+- `center::AbstractVector{<:Real}`: The center of the complex plane in image.
+- `plane_size::AbstractVector{<:Real}`: The size of the complex plane.
+
+# Returns
+A tuple of two tuples containing the x and y bounds of the axes.
+"""
 function axes_bounds(center, plane_size)
     x_start_stop = (center[1]-plane_size[1]/2, center[1]+plane_size[1]/2)
     y_start_stop = (center[2]-plane_size[2]/2, center[2]+plane_size[2]/2)
     return x_start_stop, y_start_stop
 end
 
+"""
+    compute_fractal(func, params, center, plane_size, img_size, gpu)
+
+Compute a fractal using the given function and parameters.
+
+# Arguments
+- `func::Function`: The function to compute the fractal with.
+- `params::AbstractArray{<:Number}`: The parameters to pass to the function.
+- `center::AbstractVector{<:Real}`: The center of the complex plane in image.
+- `plane_size::AbstractVector{<:Real}`: The size of the complex plane.
+- `img_size::AbstractVector{<:Integer}`: The size of the image.
+- `gpu::Bool`: Whether to use the GPU for computation.
+
+# Returns
+An figure and image containing the computed fractal.
+"""
 function basic_plot(func, params, center, plane_size, img_size)
     img = transpose(compute_fractal(func, params, center, plane_size, img_size, false))
-    heatmap(axes_bounds(center, plane_size)..., axis = (xlabel="Real", ylabel="Imaginary"), img)
+    fig, _, _ = heatmap(axes_bounds(center, plane_size)..., axis = (xlabel="Real", ylabel="Imaginary"), img)
+    return fig, img
 end
 
-function make_fig(func, params, center, plane_size, img_size)
-    fig = Figure(size = Tuple(img_size))
-    display(fig)
-    limits_x = @lift(axes_bounds($center, $plane_size)[1])
-    limits_y = @lift(axes_bounds($center, $plane_size)[2])
-    limits = @lift(($limits_x..., $limits_y...))
-    ax = Axis(fig[1,1], limits = limits)
-    hidedecorations!(ax, ticks = false)
-    img = @lift(transpose(compute_fractal($func, $params, $center, $plane_size, img_size)))
-    colormap = Observable("viridis")
-    heatmap!(ax, limits_x, limits_y, img, colormap = colormap)
-    return fig, img, colormap
-end
+"""
+    fractal_app(img_size::AbstractArray{<:Int} = [1080, 720], fps::Int = 60)
 
-function step!(img, func, params, center, plane_size, zoom, img_size)
-    plane_size[] = plane_size[] * zoom[]
-    img[] = transpose(compute_fractal(func[], params[], center[], plane_size[], img_size))
-end
+Create an interactive fractal visualization app.
 
+# Arguments
+- `img_size::AbstractArray{<:Int}`: The size of the image.
+- `fps::Int`: The frames per second.
+
+# Returns
+Nothing.
+"""
 function fractal_app(img_size::AbstractArray{<:Int} = [1080, 720], fps::Int = 60)
+    function make_fig(func, params, center, plane_size, img_size)
+        fig = Figure(size = Tuple(img_size))
+        display(fig)
+        limits_x = @lift(axes_bounds($center, $plane_size)[1])
+        limits_y = @lift(axes_bounds($center, $plane_size)[2])
+        limits = @lift(($limits_x..., $limits_y...))
+        ax = Axis(fig[1,1], limits = limits)
+        hidedecorations!(ax, ticks = false)
+        img = @lift(transpose(compute_fractal($func, $params, $center, $plane_size, img_size)))
+        colormap = Observable("viridis")
+        heatmap!(ax, limits_x, limits_y, img, colormap = colormap)
+        return fig, img, colormap
+    end
+    function step!(img, func, params, center, plane_size, zoom, img_size)
+        plane_size[] = plane_size[] * zoom[]
+        img[] = transpose(compute_fractal(func[], params[], center[], plane_size[], img_size))
+    end
     func = Observable{Function}(mandelbrot_equation)
     params = Observable{AbstractArray{<:Real}}([255])
     center = Observable{AbstractArray{<:Real}}([0.0, 0.0])

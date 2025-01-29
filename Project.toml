@@ -1,4 +1,4 @@
-name = "SPJFractals.jl"
+name = "SPJFractals"
 uuid = "93d5825e-51d9-4193-a457-f31805d37de2"
 authors = ["malenma3 <malenicky.martin@gmail.com>"]
 version = "0.1.0"

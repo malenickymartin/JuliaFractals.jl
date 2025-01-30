@@ -53,6 +53,7 @@ Nothing.
 """
 function fractal_app(img_size::AbstractArray{<:Int} = [1080, 720], fps::Int = 60)
     function make_fig(func, params, center, plane_size, img_size)
+        GLMakie.activate!(title="Fractal App")
         fig = Figure(size = Tuple(img_size))
         display(fig)
         limits_x = @lift(axes_bounds($center, $plane_size)[1])

@@ -72,7 +72,7 @@ function compute_fractal_gpu(
     cuda_params = CuArray(params)
     result = CUDA.zeros(UInt16, reverse(img_size)...)
 
-    max_th = CUDA.attribute(device(), CUDA.DEVICE_ATTRIBUTE_MAX_THREADS_PER_BLOCK)
+    max_th = Int(CUDA.attribute(device(), CUDA.DEVICE_ATTRIBUTE_MAX_THREADS_PER_BLOCK)/2)
     th_x = min(max_th, img_size[1])
     th_y = min(max_th ÷ th_x, img_size[2])
     blocks = (cld(img_size[1], th_x), cld(img_size[2], th_y))

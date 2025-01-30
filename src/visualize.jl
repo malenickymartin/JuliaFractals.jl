@@ -35,6 +35,7 @@ An figure and image containing the computed fractal.
 function basic_plot(func, params, center, plane_size, img_size)
     img = transpose(compute_fractal(func, params, center, plane_size, img_size, false))
     fig, _, _ = heatmap(axes_bounds(center, plane_size)..., axis = (xlabel="Real", ylabel="Imaginary"), img)
+    display(fig)
     return fig, img
 end
 

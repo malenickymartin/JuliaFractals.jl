@@ -1,4 +1,4 @@
-using SPJFractals
+using JuliaFractals
 using BenchmarkTools
 
 function naive_mandelbrot(img_size)

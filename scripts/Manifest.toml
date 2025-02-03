@@ -1643,7 +1643,7 @@ git-tree-sha1 = "fea870727142270bdf7624ad675901a1ee3b4c87"
 uuid = "fdea26ae-647d-5447-a871-4b548cad5224"
 version = "3.7.1"
 
-[[deps.SPJFractals]]
+[[deps.JuliaFractals]]
 deps = ["CUDA", "FLoops", "FoldsThreads", "GLMakie", "Symbolics", "Test"]
 path = ".."
 uuid = "93d5825e-51d9-4193-a457-f31805d37de2"

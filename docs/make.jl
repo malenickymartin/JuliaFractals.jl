@@ -4,28 +4,28 @@ Pkg.activate(".")
 pkg"dev .."
 Pkg.precompile()
 
-using SPJFractals
+using JuliaFractals
 using Documenter
 
 Documenter.DocMeta.setdocmeta!(
-    SPJFractals,
+    JuliaFractals,
     :DocTestSetup,
-    :(using SPJFractals);
+    :(using JuliaFractals);
     recursive = true
 )
 
 makedocs(;
-  modules = [SPJFractals],
+  modules = [JuliaFractals],
   doctest = true,
   linkcheck = true,
   authors = "Martin Malenický <malenicky.martin@gmail.com>",
-  repo = "https://github.com/malenickymartin/SPJFractals.jl/blob/{commit}{path}#{line}",
-  sitename = "SPJFractals.jl",
+  repo = "https://github.com/malenickymartin/JuliaFractals.jl/blob/{commit}{path}#{line}",
+  sitename = "JuliaFractals.jl",
   format = Documenter.HTML(;
     prettyurls = get(ENV, "CI", false) == "true",
-    canonical = "https://malenickymartin.github.io/SPJFractals.jl",
+    canonical = "https://malenickymartin.github.io/JuliaFractals.jl",
   ),
   pages = ["Home" => "index.md", "Interactive App" => "app.md", "Reference" => "reference.md"],
 )
 
-deploydocs(; repo = "github.com/malenickymartin/SPJFractals.jl", push_preview = false)
+deploydocs(; repo = "github.com/malenickymartin/JuliaFractals.jl", push_preview = false)

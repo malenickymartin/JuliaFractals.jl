@@ -1,4 +1,4 @@
-using SPJFractals
+using JuliaFractals
 using GLMakie
 
 img_size = [1080, 720]

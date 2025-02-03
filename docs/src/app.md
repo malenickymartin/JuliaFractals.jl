@@ -13,7 +13,7 @@ fractal_app
 Here is an example of how to use the `fractal_app` function:
 
 ```@example
-using SPJFractals
+using JuliaFractals
 
 # Create an interactive fractal visualization app with default parameters
 fractal_app([1080, 720], 60)

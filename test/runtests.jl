@@ -1,4 +1,4 @@
-using SPJFractals
+using JuliaFractals
 using CUDA
 using Test
 

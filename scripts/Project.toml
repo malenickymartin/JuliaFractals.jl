@@ -1,4 +1,4 @@
 [deps]
 BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
 GLMakie = "e9467ef8-e4e7-5192-8a1a-b1aee30e663a"
-SPJFractals = "93d5825e-51d9-4193-a457-f31805d37de2"
+JuliaFractals = "93d5825e-51d9-4193-a457-f31805d37de2"

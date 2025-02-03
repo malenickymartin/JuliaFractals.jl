@@ -1,10 +1,10 @@
 ```@meta
-CurrentModule = SPJFractals
+CurrentModule = JuliaFractals
 ```
 
-# SPJFractals
+# JuliaFractals
 
-Welcome to the documentation of SPJFractals.jl. This package provides a simple interface to compute and visualize fractals using the Julia programming language, 
+Welcome to the documentation of JuliaFractals.jl. This package provides a simple interface to compute and visualize fractals using the Julia programming language, 
 leveraging its power for high-performance computations.
 
 ## Installation
@@ -13,7 +13,7 @@ To install the package, run the following command in the Julia REPL:
 
 ```
 using Pkg
-Pkg.add(url="https://github.com/malenickymartin/SPJFractals.git")
+Pkg.add(url="https://github.com/malenickymartin/JuliaFractals.git")
 ```
 
 ## Features
@@ -25,10 +25,10 @@ Pkg.add(url="https://github.com/malenickymartin/SPJFractals.git")
 
 ## Getting Started
 
-To get started with SPJFractals, you can install the package and start generating fractals with just a few lines of code. Below is an example of how to compute a fractal using the `burningship_equation` with both GPU and CPU:
+To get started with JuliaFractals, you can install the package and start generating fractals with just a few lines of code. Below is an example of how to compute a fractal using the `burningship_equation` with both GPU and CPU:
 
 ```@example
-using SPJFractals
+using JuliaFractals
 
 compute_fractal(burningship_equation, [255], [0, 0], [3, 3], [10, 10])
 
@@ -41,7 +41,7 @@ This example demonstrates how to generate a fractal image using the provided fun
 You can for example define your own fractal equation and use it:
 
 ```@example
-using SPJFractals
+using JuliaFractals
 
 function my_equation(x, y, params)
     z = x + y*im
@@ -56,7 +56,7 @@ compute_fractal(my_equation, [1, 1], [0, 0], [1, 1], [10, 10])
 Plotting the fractal is done as follows:
 
 ```@example
-using SPJFractals
+using JuliaFractals
 
 basic_plot(burningship_equation, [255], [0, 0], [3, 3], [10, 10])
 ```
